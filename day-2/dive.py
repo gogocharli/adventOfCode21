@@ -35,16 +35,18 @@ def main():
 
     input_list = [tuple(line.rstrip("\n").split(" ")) for line in args.input]
 
+    aim_scalar = 0
     vec_coords = (0, 0)
 
     for action, value in input_list:
+        value = int(value)
         match action:
             case "forward":
-                vec_coords = (vec_coords[0] + int(value), vec_coords[1])
+                vec_coords = (vec_coords[0] + value, vec_coords[1] + value * aim_scalar)
             case "down":
-                vec_coords = (vec_coords[0], vec_coords[1] + int(value))
+                aim_scalar += value
             case "up":
-                vec_coords = (vec_coords[0], vec_coords[1] - int(value))
+                aim_scalar -= value
             case _:
                 print("Should not happen")
     print(f"The current coordinates are {vec_coords}.", end="")
