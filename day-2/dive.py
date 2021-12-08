@@ -33,18 +33,22 @@ def main():
 
     args = get_args()
 
-    input_list = [int(line.rstrip("\n")) for line in args.input]
+    input_list = [tuple(line.rstrip("\n").split(" ")) for line in args.input]
 
-    previous_frame, depth_count = 0, 0
+    vec_coords = (0, 0)
 
-    for index in range(len(input_list) - 2):
-        current_frame = sum(input_list[index : index + 3])
-        if index > 0 and current_frame > previous_frame:
-            depth_count += 1
-        previous_frame = current_frame
-
-    print(depth_count)
-
+    for action, value in input_list:
+        match action:
+            case "forward":
+                vec_coords = (vec_coords[0] + int(value), vec_coords[1])
+            case "down":
+                vec_coords = (vec_coords[0], vec_coords[1] + int(value))
+            case "up":
+                vec_coords = (vec_coords[0], vec_coords[1] - int(value))
+            case _:
+                print("Should not happen")
+    print(f"The current coordinates are {vec_coords}.", end="")
+    print(f"Multiplied to {vec_coords[0] * vec_coords[1]}")
 
 if __name__ == "__main__":
     main()
